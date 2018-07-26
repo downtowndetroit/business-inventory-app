@@ -26,7 +26,7 @@ require([
     ) {
 
         var map = new Map("map", {
-            basemap: "hybrid",
+            basemap: "dark-gray-vector",
             center: [-83.052738,42.335301],
             zoom: 16
         });
@@ -55,7 +55,7 @@ require([
         var parcel_symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                 new Color('white'), 1),
-            new Color('lightblue'));
+            new Color('#adb2b8'));
         var renderer = new SimpleRenderer(parcel_symbol);
         PARCEL.setRenderer(renderer);
 
@@ -94,6 +94,7 @@ require([
                 });
             }
         });
+
 
 
 
