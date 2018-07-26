@@ -30,27 +30,29 @@
         <div class="colps"
              style="position: absolute;
                     /* top right corner of the sidebar */
-                    top: 5%;
-                    left: 90%;
+                    top: 4%;
+                    left: 76%;
                     width: 5rem;
                     height: 5rem;
                     z-index: 999;">
-            <div id="sidebarCollapse1">
-                <i class="fas fa-arrow-left"></i>
-            </div>
+                <button type="button" id="sidebarCollapse1" class="btn btn-secondary">
+                    <i class="fas fa-align-left"></i>
+                    <span>CLOSE</span>
+                </button>
         </div>
         <div class="sidebar-header">
-            <h3>Business Inventory</h3>
-        </div>
-        <div class="input-group input-group-lg">
-        <label for="select" style=" font-size: large;">
-            Select Your Interest:</label>
-        <div>
-        <select class="form-control form-control-lg" id="select" style="position: relative; top:0rem; width: 7em; left: 3%;">
-            <option>business</option>
-            <option>residential</option>
-        </select>
-            <hr class="style13" style="width: 500px; top: -1rem;"></div>
+            <h2>Business Inventory</h2>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="group-toggle" style="left: 10%;">
+                <label class="btn btn-secondary active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
+                </label>
+                <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option2" autocomplete="off"> Radio
+                </label>
+                <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Radio
+                </label>
+            </div>
         </div>
         <div class="input-group mb-3" >
             <div class="col-10">
@@ -103,7 +105,7 @@
                 width: 80px;
                 height: 50px;
                 z-index: 999;">
-            <button type="button" id="sidebarCollapse2" class="btn btn-info">
+            <button type="button" id="sidebarCollapse2" class="btn btn-secondary btn-lg">
                 <i class="fas fa-align-left"></i>
                 <span>MORE</span>
             </button>
