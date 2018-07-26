@@ -67,7 +67,7 @@ a:focus {
     width: 100%;
 }
 #sidebar {
-    width: 40%;
+    width: 35rem;
     position: fixed;
     top: 0;
     left: 0;
@@ -79,7 +79,7 @@ a:focus {
 }
 
 #sidebar.active {
-    margin-left: -40%;
+    margin-left: -35rem;
 }
 
 #sidebar .sidebar-header {
@@ -186,7 +186,7 @@ a.article:hover {
 
 @media (max-width: 768px) {
     #sidebar {
-        margin-left: -500px;
+        margin-left: -35rem;
     }
     #sidebar.active {
         margin-left: 0;
