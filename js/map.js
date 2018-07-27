@@ -54,66 +54,6 @@ require([
                 visible: false,
                 orderByFields: ["FID"]
             });*/
-        var orbis_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/ORBIS_BIZ/FeatureServer/0");
-        var building_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/BUILDING_BIZ/FeatureServer/0");
-        var parcel_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/May2018Parcels/FeatureServer/0");
-        var PARCEL = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/May2018Parcels/FeatureServer/0",{
-            mode: FeatureLayer.MODE_ONDEMAND,
-            outFields: ['*'],
-            opacity: 0.8,
-            visible: true,
-            orderByFields: ["objectid"]
-        });
-
-        address_list = [];
-        address_query = new Query();
-        address_query.returnGeometry = false;
-        address_query.outFields = ['address'];
-        address_query.where = "1=1";
-        parcel_querytask.execute(address_query, function (results){
-            results['features'].forEach(function (feature) {
-                address_list.push(feature['attributes']['address'])
-            });
-        });
-        console.log(address_list);
-
-
-        var parcel_symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                new Color('white'), 1),
-            new Color('#adb2b8'));
-        var renderer = new SimpleRenderer(parcel_symbol);
-        PARCEL.setRenderer(renderer);
-        // apply the selection symbol for the layer
-        var selectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                new Color('lightgrey'), 2),
-            new Color('red'));
-        PARCEL.setSelectionSymbol(selectionSymbol);
-        // setting click event, when click parcel, graphic will change
-        PARCEL.on("click", function(evt) {
-            var idProperty = PARCEL.objectIdField;
-            var feature, featureId, query;
-
-            if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes[idProperty]) {
-                feature = evt.graphic;
-                featureId = feature.attributes[idProperty];
-
-                query = new Query();
-                query.returnGeometry = false;
-                query.objectIds = [featureId];
-                query.where = "1=1";
-
-                PARCEL.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (feature) {
-                    var attribute = feature[0]["attributes"];
-                    var parcelnum = feature[0]["attributes"]["parcelnum"];
-                    $("#business_tablebody").empty();
-                    load_parcel(attribute);
-                    load_business(parcelnum);
-                    load_building(parcelnum);
-                });
-            }
-        });
         var parcel_fieldmapping = {
             /* address+ zipcode */
             address: 'Address',
@@ -271,9 +211,92 @@ require([
                 }
             });
         };
+        select_parcel = function(evt) {
+            var idProperty = PARCEL.objectIdField;
+            var feature, featureId, query;
 
+            if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes[idProperty]) {
+                feature = evt.graphic;
+                featureId = feature.attributes[idProperty];
+
+                query = new Query();
+                query.returnGeometry = false;
+                query.objectIds = [featureId];
+                query.where = "1=1";
+
+                PARCEL.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (feature) {
+                    var attribute = feature[0]["attributes"];
+                    var parcelnum = feature[0]["attributes"]["parcelnum"];
+                    $("#business_tablebody").empty();
+                    load_parcel(attribute);
+                    load_business(parcelnum);
+                    load_building(parcelnum);
+                });
+            }
+        };
+        select_parcel_by_address = function(address) {
+            var query;
+            query = new Query();
+            query.returnGeometry = false;
+            query.where = "address="+"'"+address['target']['value']+"'";
+            console.log(query);
+
+            PARCEL.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (feature) {
+                var attribute = feature[0]["attributes"];
+                var parcelnum = feature[0]["attributes"]["parcelnum"];
+                $("#business_tablebody").empty();
+                load_parcel(attribute);
+                load_business(parcelnum);
+                load_building(parcelnum);
+            });
+
+        };
+        var orbis_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/ORBIS_BIZ/FeatureServer/0");
+        var building_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/BUILDING_BIZ/FeatureServer/0");
+        var parcel_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/May2018Parcels/FeatureServer/0");
+        var PARCEL = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/May2018Parcels/FeatureServer/0",{
+            mode: FeatureLayer.MODE_ONDEMAND,
+            outFields: ['*'],
+            opacity: 0.8,
+            visible: true,
+            orderByFields: ["objectid"]
+        });
+
+        var address_list = [];
+        address_query = new Query();
+        address_query.returnGeometry = false;
+        address_query.outFields = ['address'];
+        address_query.where = "1=1";
+        parcel_querytask.execute(address_query, function (results){
+            results['features'].forEach(function (feature) {
+                address_list.push(feature['attributes']['address'])
+            });
+        });
+        console.log(address_list);
+
+        // set selection symbol style
+        var parcel_symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                new Color('white'), 1),
+            new Color('#adb2b8'));
+        var renderer = new SimpleRenderer(parcel_symbol);
+        PARCEL.setRenderer(renderer);
+        // apply the selection symbol for the layer
+        var selectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                new Color('lightgrey'), 2),
+            new Color('red'));
+        PARCEL.setSelectionSymbol(selectionSymbol);
+        // setting click event, when click parcel, graphic will change, business
+        // and building info will be retrieved
+        PARCEL.on("click", select_parcel);
+        // address change => select new parcel
+        $(".inputAddress").change(select_parcel_by_address);
+        // default show parcel info
         $("#parcel_detail").collapse('show');
+        // add parcel vector to the map
         map.addLayer(PARCEL);
+        // auto complete setting
         $(".inputAddress").autocomplete({
             source: address_list,
             autoFocus: true,
