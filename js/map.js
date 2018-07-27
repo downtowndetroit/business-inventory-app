@@ -225,6 +225,7 @@ require([
                 query.where = "1=1";
 
                 PARCEL.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (feature) {
+                    console.log(feature[0]);
                     var attribute = feature[0]["attributes"];
                     var parcelnum = feature[0]["attributes"]["parcelnum"];
                     $("#business_tablebody").empty();
@@ -236,9 +237,11 @@ require([
         };
         select_parcel_by_address = function(address) {
             var query;
+            console.log(address);
             query = new Query();
             query.returnGeometry = false;
-            query.where = "address="+"'"+address['target']['value']+"'";
+            var objectid = address_id_list[address['target']['value']];
+            query.where = "OBJECTID_1="+objectid;
             console.log(query);
 
             PARCEL.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (feature) {
@@ -262,15 +265,18 @@ require([
             orderByFields: ["objectid"]
         });
 
+        var address_id_list = [];
         var address_list = [];
         address_query = new Query();
         address_query.returnGeometry = false;
-        address_query.outFields = ['address'];
+        address_query.outFields = ['OBJECTID_1' ,'address'];
         address_query.where = "1=1";
         parcel_querytask.execute(address_query, function (results){
-            results['features'].forEach(function (feature) {
-                address_list.push(feature['attributes']['address'])
-            });
+            console.log(results['features']);
+            for (i=0; i<results['features'].length; i++) {
+                address_id_list[results['features'][i]['attributes']['address']] = results['features'][i]['attributes']['OBJECTID_1'];
+                address_list.push(results['features'][i]['attributes']['address']);
+            }
         });
         console.log(address_list);
 
