@@ -39,21 +39,6 @@ require([
          * object.
          ***************************************************************/
 
-            // Carbon storage of trees in Warren Wilson College.
-        /*var ORBIS = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/ORBIS_BIZ/FeatureServer/0",{
-                mode: FeatureLayer.MODE_ONDEMAND,
-                outFields: ['*'],
-                opacity: 0.2,
-                visible: false,
-                orderByFields: ["Field1"]
-            });*/
-        /*var BUILDING = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/BUILDING_BIZ/FeatureServer/0",{
-                mode: FeatureLayer.MODE_ONDEMAND,
-                outFields: ['*'],
-                opacity: 0.2,
-                visible: false,
-                orderByFields: ["FID"]
-            });*/
         var parcel_fieldmapping = {
             /* address+ zipcode */
             address: 'Address',
@@ -106,24 +91,24 @@ require([
             }
         };
         var business_fieldmapping = {
-            Company_na: 'Company Name',
-            Street__no: 'Address',
-            City: 'City',
-            Last_avail: 'Last Available Year',
-            NAICS_2018: 'NAICS Core Classification',
-            NAICS_2020: 'NAICS Seconday Classification',
-            NAICS_2022: 'NAICS Minor Classification',
-            Consolidat: 'Consolidation CODE',
-            Type_: 'Type of Address',
-            Telephone_: 'Phone Number'
+            COMPANY_NA: 'Company Name',
+            LOCATION_A: 'Address',
+            FIRST_NAME: 'Contact Name',
+            PHONE_NUMB: 'Phone Number',
+            WEB_ADDRES: 'Website',
+            ACTUAL_EMP: 'Actual Employee',
+            SALES_VOLU: 'Sales Volume Range',
+            PRIMARY__1: 'SCI Classification',
+            NAICS_DESC: 'NAICS Classification',
+            SQUARE_FOO: 'Office Area'
         };
-        load_business = function(parcelnum){
+        load_business = function(parcelid){
             var  business_query;
             business_query = new Query();
             business_query.outFields = ["*"];
-            business_query.where =  "parcelnum='"+parcelnum+"'";
+            business_query.where =  "parcelobji="+parcelid;
             var business_num = 0;
-            orbis_querytask.execute(business_query, function (results) {
+            infousa_querytask.execute(business_query, function (results) {
                 if (results['features'].length === 0) {
                     $("#business_tablebody").append('<tr class="table-dark">' +
                         '<td class="text-left text-danger">Business Not Found</td>' +
@@ -137,7 +122,7 @@ require([
                             '<tr class="table-dark">' +
                             '<td colspan="2">' +'<a class="text text-info" data-toggle="collapse" ' +
                             'href="#business'+business_num+'"  aria-controls="business'+business_num+'">'+
-                            feature['attributes']['Company_na'] + '</a></td>' +
+                            feature['attributes']['COMPANY_NA'] + '</a></td>' +
                             '</tr>'+
                             '</div>');
                         $("#business_tablebody").append(
@@ -145,15 +130,15 @@ require([
                             '</div>'
                         );
                         for (attribute in business_fieldmapping) {
-                            if (attribute == 'Street__no') {
+                            if (attribute == 'LOCATION_A') {
                                 var field_name = business_fieldmapping[attribute];
-                                var value = attributes[attribute] + ', ' + attributes['Street___1'];
-                            } else if (attribute == 'City') {
+                                var value = attributes[attribute] + ', ' +attributes['CITY'] + ' '+attributes['STATE']+', '+attributes['ZIP_CODE'];
+                            } else if (attribute == 'FIRST_NAME') {
                                 var field_name = business_fieldmapping[attribute];
-                                var value = attributes[attribute] + ', ' + attributes['Postcode'];
-                            } else if (attribute == 'Telephone_') {
+                                var value = attributes[attribute] + ' ' + attributes['LAST_NAME']+'-'+attributes['CONTACT_TI'];
+                            } else if (attribute == 'PRIMARY__1') {
                                 var field_name = business_fieldmapping[attribute];
-                                var value = attributes[attribute] + ', ' + attributes['E_mail_add'];
+                                var value = attributes[attribute] + '-' + attributes['SECONDARY1']+'-'+attributes['SECONDAR_2'];
                             } else {
                                 var field_name = business_fieldmapping[attribute];
                                 var value = attributes[attribute];
@@ -228,9 +213,10 @@ require([
                     console.log(feature[0]);
                     var attribute = feature[0]["attributes"];
                     var parcelnum = feature[0]["attributes"]["parcelnum"];
+                    var parcelid = feature[0]["attributes"]["objectid"];
                     $("#business_tablebody").empty();
                     load_parcel(attribute);
-                    load_business(parcelnum);
+                    load_business(parcelid);
                     load_building(parcelnum);
                 });
             }
@@ -247,14 +233,15 @@ require([
             PARCEL.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (feature) {
                 var attribute = feature[0]["attributes"];
                 var parcelnum = feature[0]["attributes"]["parcelnum"];
+                var parcelid = feature[0]["attributes"]["objectid"];
                 $("#business_tablebody").empty();
                 load_parcel(attribute);
-                load_business(parcelnum);
+                load_business(parcelid);
                 load_building(parcelnum);
             });
 
         };
-        var orbis_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/ORBIS_BIZ/FeatureServer/0");
+        var infousa_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/INFOUSA/FeatureServer/0");
         var building_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/BUILDING_BIZ/FeatureServer/0");
         var parcel_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/May2018Parcels/FeatureServer/0");
         var PARCEL = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/May2018Parcels/FeatureServer/0",{
