@@ -30,7 +30,7 @@ require([
         var map = new Map("map", {
             basemap: "dark-gray-vector",
             center: [-83.052738,42.335301],
-            zoom: 16
+            zoom: 15
         });
 
         /****************************************************************
@@ -129,6 +129,7 @@ require([
                             '<div class="collapse" id="business'+business_num+'">'+
                             '</div>'
                         );
+                        console.log(attributes);
                         for (attribute in business_fieldmapping) {
                             if (attribute == 'LOCATION_A') {
                                 var field_name = business_fieldmapping[attribute];
@@ -210,7 +211,6 @@ require([
                 query.where = "1=1";
 
                 PARCEL.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (feature) {
-                    console.log(feature[0]);
                     var attribute = feature[0]["attributes"];
                     var parcelnum = feature[0]["attributes"]["parcelnum"];
                     var parcelid = feature[0]["attributes"]["objectid"];
@@ -223,13 +223,10 @@ require([
         };
         select_parcel_by_address = function(address) {
             var query;
-            console.log(address);
             query = new Query();
             query.returnGeometry = false;
             var objectid = address_id_list[address['target']['value']];
             query.where = "OBJECTID_1="+objectid;
-            console.log(query);
-
             PARCEL.selectFeatures(query, FeatureLayer.SELECTION_NEW, function (feature) {
                 var attribute = feature[0]["attributes"];
                 var parcelnum = feature[0]["attributes"]["parcelnum"];
@@ -259,13 +256,11 @@ require([
         address_query.outFields = ['OBJECTID_1' ,'address'];
         address_query.where = "1=1";
         parcel_querytask.execute(address_query, function (results){
-            console.log(results['features']);
             for (i=0; i<results['features'].length; i++) {
                 address_id_list[results['features'][i]['attributes']['address']] = results['features'][i]['attributes']['OBJECTID_1'];
                 address_list.push(results['features'][i]['attributes']['address']);
             }
         });
-        console.log(address_list);
 
         // set selection symbol style
         var parcel_symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,

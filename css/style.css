@@ -111,8 +111,7 @@ a:focus {
 
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
-    color: #fff;
-    background: #5f656d;
+    color: #e0e0e0;
 }
 
 a[data-toggle="collapse"] {
@@ -206,8 +205,9 @@ a.article:hover {
 }
 /* ARCGIS STYLE*/
 #map {
-    height: 55rem;
+    height: 100vh;
     width: 100%;
+    top: 0px;
     margin: 0;
     padding: 0;
     z-index: -10;
