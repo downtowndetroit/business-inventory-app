@@ -4,7 +4,7 @@ This tool is built for integrating
 data about **Downtown Detroit** and visualizing 
 using ArcGIS JavaScript Toolkit. The data 
 used in this project came from DDP ArcGIS 
-Online Server, Detroit Open Data, and ORBIS 
+Online Server, Detroit Open Data, and InfoUSA
 Database. 
 
 ## What it can do ?
