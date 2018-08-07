@@ -155,6 +155,15 @@ a.article:hover {
     color: #fff !important;
 }
 
+#business_detail image{
+    width: 100%;
+    height: 30%;
+}
+#building_detail image{
+    width: 100%;
+    height: 30%;
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -189,9 +198,7 @@ a.article:hover {
     #content {
         width: 100%;
     }
-    #content.active {
-        width: calc(100% - 32rem);
-    }
+
     #sidebarCollapse span {
         display: none;
     }

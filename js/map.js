@@ -108,6 +108,7 @@ require([
             business_query.outFields = ["*"];
             business_query.where =  "parcelobji="+parcelid;
             var business_num = 0;
+            console.log(business_query);
             infousa_querytask.execute(business_query, function (results) {
                 if (results['features'].length === 0) {
                     $("#business_tablebody").append('<tr class="table-dark">' +
@@ -115,10 +116,13 @@ require([
                         '<td class="text-right text-danger"></td>' +
                         '</tr>')
                 } else {
+                    console.log(results);
                     results['features'].forEach(function (feature) {
                         var attributes = feature['attributes'];
                         business_num += 1;
+                        // TODO: ADD IMAGE DISPLAY FOR BUSINESS TABLE
                         $("#business_tablebody").append(
+                            '<img class="image" src="" alt="business image" style="display: none;">'+
                             '<tr class="table-dark">' +
                             '<td colspan="2">' +'<a class="text text-info" data-toggle="collapse" ' +
                             'href="#business'+business_num+'"  aria-controls="business'+business_num+'">'+
@@ -238,10 +242,10 @@ require([
             });
 
         };
-        var infousa_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/INFOUSA/FeatureServer/0");
-        var building_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/BUILDING_BIZ/FeatureServer/0");
-        var parcel_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/May2018Parcels/FeatureServer/0");
-        var PARCEL = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/May2018Parcels/FeatureServer/0",{
+        var infousa_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/0");
+        var building_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1");
+        var parcel_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/2");
+        var PARCEL = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/2",{
             mode: FeatureLayer.MODE_ONDEMAND,
             outFields: ['*'],
             opacity: 0.8,
@@ -289,4 +293,11 @@ require([
             source: address_list,
             autoFocus: true,
         });
+        // get picture, should be shared to public, need to disable edit
+        // https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1/142/attachments/1
+        // Steps to retrieve image:
+        // First: Get attachments ID
+        // (building id 436's image)from https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/1/436/attachments?f=html&token=
+        // Second: retrieve attachment:
+        // (building id 436's image)From https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1/436/attachments/#id
     });
