@@ -155,13 +155,15 @@ a.article:hover {
     color: #fff !important;
 }
 
-#business_detail image{
+#business_tablebody img{
+    display: block;
     width: 100%;
-    height: 30%;
+    height: 400px;
 }
-#building_detail image{
+#building_tablebody img{
+    display: block;
     width: 100%;
-    height: 30%;
+    height: 400px;
 }
 
 /* ---------------------------------------------------
