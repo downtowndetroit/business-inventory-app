@@ -219,7 +219,7 @@ require([
                                     "?token=Md3NyT-T9y4qZEkSKKVQpZ_gSbqZBkiYWjvtV7g2FAINwEPc_mn4sgNqo-cgnkGKX3ukowHLqbnYrXcIi2sjE4OXzmvAALY9oKBTriGasvMUSgJWYqAROEGQiRU_IrbwbNWiNM5nvfKhNkH2qq9bRp7RW9cahWRpjlGVq7Jon80xfrItWpQUuLCiCOYsKlg_jKqnj24iGzuwODLrF0mvuSVhRmhq1Ra1TBvM7Hr2ATqrXRJXGEAt5HcSBSehJNkd"
                                 display = 'block';
                             } else {
-                                img_url = 'NONE';
+                                img_url = '';
                                 display = 'none';
                             }
                             $("#building_tablebody").append(
