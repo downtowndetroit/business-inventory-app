@@ -332,12 +332,4 @@ require([
             source: address_list,
             autoFocus: true,
         });
-
-        // get picture, should be shared to public, need to disable edit
-        // https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1/142/attachments/1
-        // Steps to retrieve image:
-        // First: Get attachments ID
-        // (building id 436's image)from https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/1/436/attachments?f=html&token=
-        // Second: retrieve attachment:
-        // (building id 436's image)From https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1/436/attachments/#id
-    });
+        });
