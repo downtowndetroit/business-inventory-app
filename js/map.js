@@ -26,7 +26,7 @@ require([
         ready,
         on
     ) {
-
+        token = 'ba3GxzBYsI8jbkBJufobRmQ_Fne6VthssHBYCKtrxjp50bopz-o1c6ojIggmAAOercSPMehX6YCHFrGOkyPWyi8kOO-gbnOJL3EbM5FQrvc1LG_GvCTXbdQO79X6IA7ro5tUW3fHE5WITul2IA8DT179bS4nWFbPweC36VC82WaSs7dBANfyVRIjjU-ZGzBcP0lgMQpivYELFzfywkRtoTwb9inxXwUcNjAvyVO_vKdeNZ_jNvVg6VljoKEZc8OW';
         var map = new Map("map", {
             basemap: "dark-gray-vector",
             center: [-83.052738,42.335301],
@@ -122,15 +122,13 @@ require([
                         var attributes = feature['attributes'];
                         business_id = attributes['OBJECTID_1'];
                         $.getJSON('https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/0/'+business_id+'/attachments' +
-                            '?f=pjson&token=Md3NyT-T9y4qZEkSKKVQpZ_gSbqZBkiYWjvtV7g2FAINwEPc_mn4sgNqo-cgnkGKX3ukowHLqbnYrXcIi2sjE4OXzmvAALY9oKBTri' +
-                            'GasvMUSgJWYqAROEGQiRU_IrbwbNWiNM5nvfKhNkH2qq9bRp7RW9cahWRpjlGVq7Jon80xfrItWpQUuLCiCOYsKlg_jKqnj24iGzuwODLrF0mvuSVhRmhq1Ra' +
-                            '1TBvM7Hr2ATqrXRJXGEAt5HcSBSehJNkd', function (result) {
+                            '?f=pjson&token='+token, function (result) {
                             if (result['attachmentInfos'].length!==0) {
                                 console.log(result);
                                 img_id = result['attachmentInfos'][0]['id'];
                                 console.log(img_id);
                                 img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/0/" + business_id + "/attachments/" + img_id +
-                                    "?token=Md3NyT-T9y4qZEkSKKVQpZ_gSbqZBkiYWjvtV7g2FAINwEPc_mn4sgNqo-cgnkGKX3ukowHLqbnYrXcIi2sjE4OXzmvAALY9oKBTriGasvMUSgJWYqAROEGQiRU_IrbwbNWiNM5nvfKhNkH2qq9bRp7RW9cahWRpjlGVq7Jon80xfrItWpQUuLCiCOYsKlg_jKqnj24iGzuwODLrF0mvuSVhRmhq1Ra1TBvM7Hr2ATqrXRJXGEAt5HcSBSehJNkd"
+                                    "?token="+token;
                                 display = 'block';
                             } else {
                                 img_url = '';
@@ -209,14 +207,12 @@ require([
                         var attributes = feature['attributes'];
                         building_id = attributes['OBJECTID_12'];
                         $.getJSON('https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/1/'+building_id+'/attachments' +
-                            '?f=pjson&token=Md3NyT-T9y4qZEkSKKVQpZ_gSbqZBkiYWjvtV7g2FAINwEPc_mn4sgNqo-cgnkGKX3ukowHLqbnYrXcIi2sjE4OXzmvAALY9oKBTri' +
-                            'GasvMUSgJWYqAROEGQiRU_IrbwbNWiNM5nvfKhNkH2qq9bRp7RW9cahWRpjlGVq7Jon80xfrItWpQUuLCiCOYsKlg_jKqnj24iGzuwODLrF0mvuSVhRmhq1Ra' +
-                            '1TBvM7Hr2ATqrXRJXGEAt5HcSBSehJNkd', function (result) {
+                            '?f=pjson&token='+token, function (result) {
                             if (result['attachmentInfos'].length!==0) {
                                 console.log(result);
                                 img_id = result['attachmentInfos'][0]['id'];
                                 img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1/" + building_id + "/attachments/" + img_id +
-                                    "?token=Md3NyT-T9y4qZEkSKKVQpZ_gSbqZBkiYWjvtV7g2FAINwEPc_mn4sgNqo-cgnkGKX3ukowHLqbnYrXcIi2sjE4OXzmvAALY9oKBTriGasvMUSgJWYqAROEGQiRU_IrbwbNWiNM5nvfKhNkH2qq9bRp7RW9cahWRpjlGVq7Jon80xfrItWpQUuLCiCOYsKlg_jKqnj24iGzuwODLrF0mvuSVhRmhq1Ra1TBvM7Hr2ATqrXRJXGEAt5HcSBSehJNkd"
+                                    "?token="+token;
                                 display = 'block';
                             } else {
                                 img_url = '';
