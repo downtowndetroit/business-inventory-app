@@ -115,58 +115,120 @@ require([
                         '<td class="text-right text-danger"></td>' +
                         '</tr>')
                 } else {
+                    console.log(results);
                     results['features'].forEach(function (feature) {
-                        var img_id, business_id;
-                        img_url = '';
+                        var business_id, parcelnum;
                         display = 'none';
                         var attributes = feature['attributes'];
                         business_id = attributes['OBJECTID_1'];
+                        parcelnum = feature['attributes']['parcelnum'];
+                        // add img of the business, if business img unavailable, use building img
+                        var img_id, img_url, display;
                         $.getJSON('https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/0/'+business_id+'/attachments' +
                             '?f=pjson&token='+token, function (result) {
                             if (result['attachmentInfos'].length!==0) {
-                                console.log(result);
+                                business_num += 1;
                                 img_id = result['attachmentInfos'][0]['id'];
-                                console.log(img_id);
                                 img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/0/" + business_id + "/attachments/" + img_id +
                                     "?token="+token;
                                 display = 'block';
-                            } else {
-                                img_url = '';
-                                display = 'none';
-                            }
-                            business_num += 1;
-                            // TODO: ADD IMAGE DISPLAY FOR BUSINESS TABLE
-                            $("#business_tablebody").append(
-                                '<tr class="table-dark">' +
-                                '<td colspan="2">' +'<a class="text text-info" data-toggle="collapse" ' +
-                                'href="#business'+business_num+'"  aria-controls="business'+business_num+'">'+
-                                feature['attributes']['COMPANY_NA'] + '</a></td>' +
-                                '</tr>'+
-                                '</div>');
-                            $("#business_tablebody").append(
-                                '<div class="collapse" id="business'+business_num+'">'+
-                                '<img class="image" src="'+img_url+'" alt="business image" style="display: '+display+'">'+
-                                '</div>'
-                            );
-                            for (attribute in business_fieldmapping) {
-                                if (attribute == 'LOCATION_A') {
-                                    var field_name = business_fieldmapping[attribute];
-                                    var value = attributes[attribute] + ', ' +attributes['CITY'] + ' '+attributes['STATE']+', '+attributes['ZIP_CODE'];
-                                } else if (attribute == 'FIRST_NAME') {
-                                    var field_name = business_fieldmapping[attribute];
-                                    var value = attributes[attribute] + ' ' + attributes['LAST_NAME']+'-'+attributes['CONTACT_TI'];
-                                } else if (attribute == 'PRIMARY__1') {
-                                    var field_name = business_fieldmapping[attribute];
-                                    var value = attributes[attribute] + '-' + attributes['SECONDARY1']+'-'+attributes['SECONDAR_2'];
-                                } else {
-                                    var field_name = business_fieldmapping[attribute];
-                                    var value = attributes[attribute];
+                                // add table content
+                                $("#business_tablebody").append(
+                                    '<tr class="table-dark">' +
+                                    '<td colspan="2">' +'<a class="text text-info" data-toggle="collapse" ' +
+                                    'href="#business'+business_num+'"  aria-controls="business'+business_num+'">'+
+                                    feature['attributes']['COMPANY_NA'] + '</a></td>' +
+                                    '</tr>'+
+                                    '</div>');
+                                $("#business_tablebody").append(
+                                    '<div class="collapse" id="business'+business_num+'">'+
+                                    '<div class="business_img">'+
+                                    '<img class="image" src="'+img_url+'" alt="business image" style="display: '+display+'">'+
+                                    '</div>'+
+                                    '</div>'
+                                );
+                                for (attribute in business_fieldmapping) {
+                                    if (attribute == 'LOCATION_A') {
+                                        var field_name = business_fieldmapping[attribute];
+                                        var value = attributes[attribute] + ', ' +attributes['CITY'] + ' '+attributes['STATE']+', '+attributes['ZIP_CODE'];
+                                    } else if (attribute == 'FIRST_NAME') {
+                                        var field_name = business_fieldmapping[attribute];
+                                        var value = attributes[attribute] + ' ' + attributes['LAST_NAME']+'-'+attributes['CONTACT_TI'];
+                                    } else if (attribute == 'PRIMARY__1') {
+                                        var field_name = business_fieldmapping[attribute];
+                                        var value = attributes[attribute] + '-' + attributes['SECONDARY1']+'-'+attributes['SECONDAR_2'];
+                                    } else {
+                                        var field_name = business_fieldmapping[attribute];
+                                        var value = attributes[attribute];
+                                    }
+                                    $("#business"+business_num).append(
+                                        '<tr>' +
+                                        '<td class="text-left">' + field_name + '</td>' +
+                                        '<td class="text-right">' + value + '</td>' +
+                                        '</tr>')
                                 }
-                                $("#business"+business_num).append(
-                                    '<tr>' +
-                                    '<td class="text-left">' + field_name + '</td>' +
-                                    '<td class="text-right">' + value + '</td>' +
-                                    '</tr>')
+                            } else {
+                                business_num += 1;
+                                var building_query;
+                                building_query = new Query();
+                                building_query.outFields = ["*"];
+                                building_query.where = "APN='" + parcelnum + "'";
+                                building_querytask.execute(building_query, function (building_results) {
+                                    if (building_results['features'].length !== 0) {
+                                        var building_feature = building_results['features'][0];
+                                        display = 'none';
+                                        var building_id;
+                                        var building_attributes = building_feature['attributes'];
+                                        building_id = building_attributes['OBJECTID_12'];
+                                        $.getJSON('https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/1/' + building_id + '/attachments' +
+                                            '?f=pjson&token=' + token, function (result) {
+                                            if (result['attachmentInfos'].length !== 0) {
+                                                img_id = result['attachmentInfos'][0]['id'];
+                                                img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1/" + building_id + "/attachments/" + img_id +
+                                                    "?token=" + token;
+                                                display = 'block';
+                                            } else{
+                                                img_url='#';
+                                                display='none';
+                                            }
+                                            // add table content
+                                            $("#business_tablebody").append(
+                                                '<tr class="table-dark">' +
+                                                '<td colspan="2">' +'<a class="text text-info" data-toggle="collapse" ' +
+                                                'href="#business'+business_num+'"  aria-controls="business'+business_num+'">'+
+                                                feature['attributes']['COMPANY_NA'] + '</a></td>' +
+                                                '</tr>'+
+                                                '</div>');
+                                            $("#business_tablebody").append(
+                                                '<div class="collapse" id="business'+business_num+'">'+
+                                                '<div class="business_img">'+
+                                                '<img class="image" src="'+img_url+'" alt="business image" style="display: '+display+'">'+
+                                                '</div>'+
+                                                '</div>'
+                                            );
+                                            for (attribute in business_fieldmapping) {
+                                                if (attribute == 'LOCATION_A') {
+                                                    var field_name = business_fieldmapping[attribute];
+                                                    var value = attributes[attribute] + ', ' +attributes['CITY'] + ' '+attributes['STATE']+', '+attributes['ZIP_CODE'];
+                                                } else if (attribute == 'FIRST_NAME') {
+                                                    var field_name = business_fieldmapping[attribute];
+                                                    var value = attributes[attribute] + ' ' + attributes['LAST_NAME']+'-'+attributes['CONTACT_TI'];
+                                                } else if (attribute == 'PRIMARY__1') {
+                                                    var field_name = business_fieldmapping[attribute];
+                                                    var value = attributes[attribute] + '-' + attributes['SECONDARY1']+'-'+attributes['SECONDAR_2'];
+                                                } else {
+                                                    var field_name = business_fieldmapping[attribute];
+                                                    var value = attributes[attribute];
+                                                }
+                                                $("#business"+business_num).append(
+                                                    '<tr>' +
+                                                    '<td class="text-left">' + field_name + '</td>' +
+                                                    '<td class="text-right">' + value + '</td>' +
+                                                    '</tr>')
+                                            }
+                                        });
+                                    }
+                                });
                             }
                         });
                     });
@@ -200,14 +262,15 @@ require([
                         '<td class="text-right text-danger"></td>' +
                         '</tr>')
                 } else {
-                    var img_id, img_url, building_id;
                     var featrues = results['features'];
                     featrues.forEach(function (feature) {
                         display = 'none';
+                        var building_id;
                         var attributes = feature['attributes'];
                         building_id = attributes['OBJECTID_12'];
                         $.getJSON('https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/1/'+building_id+'/attachments' +
                             '?f=pjson&token='+token, function (result) {
+                            var img_id, img_url;
                             if (result['attachmentInfos'].length!==0) {
                                 console.log(result);
                                 img_id = result['attachmentInfos'][0]['id'];
