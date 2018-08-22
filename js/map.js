@@ -206,16 +206,16 @@ require([
                         '<td class="text-right text-danger"></td>' +
                         '</tr>')
                 } else {
-                    var img_id, img_url, building_id;
                     var featrues = results['features'];
                     featrues.forEach(function (feature) {
                         display = 'none';
+                        var building_id;
                         var attributes = feature['attributes'];
                         building_id = attributes['OBJECTID_12'];
                         $.getJSON('https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/1/'+building_id+'/attachments' +
                             '?f=pjson&token='+token, function (result) {
+                            var img_id, img_url;
                             if (result['attachmentInfos'].length!==0) {
-                                console.log(result);
                                 img_id = result['attachmentInfos'][0]['id'];
                                 img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1/" + building_id + "/attachments/" + img_id +
                                     "?token="+token;
@@ -235,11 +235,12 @@ require([
                                     '<td class="text-left">' + field_name + '</td>' +
                                     '<td class="text-right">' + value + '</td>' +
                                     '</tr>')
+
                             }
-                            // add_building_img_to_business();
                         });
                     });
                 }
+                add_building_img_to_business();
             });
         };
         select_parcel = function(evt) {
