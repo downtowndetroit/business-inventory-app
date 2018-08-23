@@ -28,7 +28,7 @@ require([
     ) {
         token = 'ba3GxzBYsI8jbkBJufobRmQ_Fne6VthssHBYCKtrxjp50bopz-o1c6ojIggmAAOercSPMehX6YCHFrGOkyPWyi8kOO-gbnOJL3EbM5FQrvc1LG_GvCTXbdQO79X6IA7ro5tUW3fHE5WITul2IA8DT179bS4nWFbPweC36VC82WaSs7dBANfyVRIjjU-ZGzBcP0lgMQpivYELFzfywkRtoTwb9inxXwUcNjAvyVO_vKdeNZ_jNvVg6VljoKEZc8OW';
         var map = new Map("map", {
-            basemap: "dark-gray-vector",
+            basemap: "gray",
             center: [-83.052738, 42.335301],
             zoom: 15
         });
@@ -182,7 +182,7 @@ require([
                                     '<td class="text-right">' + value + '</td>' +
                                     '</tr>')
                             }
-                            setTimeout(add_business_img(business_num), 3000);
+                            setTimeout(add_business_img(business_num), 1000);
                         });
                     });
                 }
