@@ -5,10 +5,12 @@ require([
         "esri/symbols/SimpleFillSymbol",
         "esri/symbols/SimpleLineSymbol",
         "esri/renderers/SimpleRenderer",
+        "esri/renderers/ClassBreaksRenderer",
         "esri/Color",
         "esri/tasks/query",
         "esri/tasks/QueryTask",
         "esri/graphic",
+        "esri/dijit/Legend",
         "dojo/domReady!",
         "dojo/ready",
         "dojo/on",
@@ -19,17 +21,19 @@ require([
         SimpleFillSymbol,
         SimpleLineSymbol,
         SimpleRenderer,
+        ClassBreaksRenderer,
         Color,
         Query,
         QueryTask,
         Graphic,
+        Legend,
         ready,
         on
-    ) {
+) {
         token = 'ba3GxzBYsI8jbkBJufobRmQ_Fne6VthssHBYCKtrxjp50bopz-o1c6ojIggmAAOercSPMehX6YCHFrGOkyPWyi8kOO-gbnOJL3EbM5FQrvc1LG_GvCTXbdQO79X6IA7ro5tUW3fHE5WITul2IA8DT179bS4nWFbPweC36VC82WaSs7dBANfyVRIjjU-ZGzBcP0lgMQpivYELFzfywkRtoTwb9inxXwUcNjAvyVO_vKdeNZ_jNvVg6VljoKEZc8OW';
         var map = new Map("map", {
             basemap: "gray",
-            center: [-83.052738, 42.335301],
+            center: [-83.057738, 42.332301],
             zoom: 15
         });
 
@@ -127,7 +131,7 @@ require([
             var business_num = 0;
             infousa_querytask.execute(business_query, function (results) {
                 if (results['features'].length === 0) {
-                    $("#business_tablebody").append('<tr class="table-dark">' +
+                    $("#business_tablebody").append('<tr class="table-info">' +
                         '<td class="text-left text-danger">Business Not Found</td>' +
                         '<td class="text-right text-danger"></td>' +
                         '</tr>')
@@ -151,7 +155,7 @@ require([
                             }
                             business_num += 1;
                             $("#business_tablebody").append(
-                                '<tr class="table-dark">' +
+                                '<tr class="table-info">' +
                                 '<td colspan="2">' + '<a class="text text-info" data-toggle="collapse" ' +
                                 'href="#business' + business_num + '"  aria-controls="business' + business_num + '">' +
                                 feature['attributes']['COMPANY_NA'] + '</a></td>' +
@@ -192,7 +196,8 @@ require([
             /* address+ zipcode */
             AKA: 'Building Name',
             APN: 'Parcel Number',
-            BUILDING_I: 'Building ID',
+            TotalBusinessSpace: 'Total Space',
+            NonEmptySpace: 'Occupied Space',
             BUILD_TYPE: 'Building Type',
             YEAR_BUILT: 'Built Year',
             CONDITION: 'Condition',
@@ -210,7 +215,7 @@ require([
             $("#building_tablebody").empty();
             building_querytask.execute(building_query, function (results) {
                 if (results['features'].length === 0) {
-                    $("#building_tablebody").append('<tr class="table-dark">' +
+                    $("#building_tablebody").append('<tr class="table-info">' +
                         '<td class="text-left text-danger">Building Not Found</td>' +
                         '<td class="text-right text-danger"></td>' +
                         '</tr>')
@@ -298,9 +303,15 @@ require([
         var PARCEL = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/2", {
             mode: FeatureLayer.MODE_ONDEMAND,
             outFields: ['*'],
-            opacity: 0.8,
+            opacity: 0.5,
             visible: true,
             orderByFields: ["objectid"]
+        });
+        var BUILIDNG = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1",{
+            mode: FeatureLayer.MODE_ONDEMAND,
+            outFields: [],
+            opacity: 0.8,
+            visible: true
         });
 
         var address_id_list = [];
@@ -316,19 +327,61 @@ require([
             }
         });
 
-        // set selection symbol style
+        // set parcel symbol style
         var parcel_symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                 new Color('white'), 1),
-            new Color('#adb2b8'));
+            new Color('#c3c8ce'));
         var renderer = new SimpleRenderer(parcel_symbol);
         PARCEL.setRenderer(renderer);
-        // apply the selection symbol for the layer
+
+        // set building symbol style
+        var building_symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                new Color('white'), 1),
+            new Color('#393e44'));
+        var building_renderer = new ClassBreaksRenderer(building_symbol, "NonEmptySpace");
+        building_renderer.normalizationType = "TotalBusinessSpace";
+        building_renderer.addBreak(0, 0, new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                new Color('white'), 1),
+            new Color('#0036ff')));
+        building_renderer.addBreak(0, 0.3, new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                new Color('white'), 1),
+            new Color('#48a7ff')));
+        building_renderer.addBreak(0.3, 0.6, new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                new Color('white'), 1),
+            new Color('#af9ed6')));
+        building_renderer.addBreak(0.6, 0.9, new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                new Color('white'), 1),
+            new Color('#8862b8')));
+        building_renderer.addBreak(0.9, 1, new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                new Color('white'), 1),
+            new Color('#b7008b')));
+        BUILIDNG.setRenderer(building_renderer);
+        /*
+        map.on("load", function(evt){
+            var legend = new Legend({
+                map: map,
+                layerInfos: [{
+                    layer: BUILIDNG,
+                    title: "Occupancy Rate"
+                }]
+            }, "legendDiv");
+            legend.startup();
+        });*/
+
+        // set the selection symbol for the parcel
         var selectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                 new Color('lightgrey'), 2),
             new Color('red'));
         PARCEL.setSelectionSymbol(selectionSymbol);
+
         // setting click event, when click parcel, graphic will change, business
         // and building info will be retrieved
         PARCEL.on("click", select_parcel);
@@ -336,7 +389,8 @@ require([
         $(".inputAddress").change(select_parcel_by_address);
         // default show parcel info
         $("#building_detail").collapse('show');
-        // add parcel vector to the map
+        // add parcel and building vector to the map
+        map.addLayer(BUILIDNG);
         map.addLayer(PARCEL);
         // auto complete setting
         $(".inputAddress").autocomplete({

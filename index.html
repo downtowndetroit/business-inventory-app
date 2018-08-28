@@ -29,13 +29,18 @@
              style="position: absolute;
                     /* top right corner of the sidebar */
                     top: 2rem;
-                    left: 84%;
+                    left: 86%;
                     width: 5rem;
                     height: 5rem;
                     z-index: 999;">
-                <button type="button" id="sidebarCollapse1" class="btn btn-secondary">
-                    <i class="fas fa-align-left"></i>
-                    <span>CLOSE</span>
+                <button type="button" id="sidebarCollapse1" class="btn btn-outline-light">
+                    <img src="img/collapse.png" style="
+                     height: 30px;
+                     -webkit-transform: rotate(-90deg);
+                    -moz-transform: rotate(-90deg);
+                    -o-transform: rotate(-90deg);
+                    -ms-transform: rotate(-90deg);
+                    transform: rotate(-90deg);">
                 </button>
         </div>
         <div class="sidebar-header">
@@ -46,23 +51,15 @@
                                                                                     margin-top: -1.5rem; ">
             <h2 style="display: inline;
                         font-size: 1.8rem;">Business Inventory</h2>
-            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="group-toggle" style="left: 25%;">
-                <label class="btn btn-secondary active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Business
-                </label>
-                <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> Development
-                </label>
-            </div>
         </div>
         <div class="form-group">
             <div class="col-8">
-                <input type="text" class="form-control text-light bg-dark inputAddress" placeholder="Address">
+                <input type="text" class="form-control text-dark bg-light inputAddress" placeholder="Address">
             </div>
         </div>
         <!-- TODO: Add collapse components: https://getbootstrap.com/docs/4.0/components/collapse/ -->
         <div style="left: 3rem;">
-            <button class="btn btn-secondary btn-lg"
+            <button class="btn btn-outline-info btn-lg"
                     type="button" data-toggle="collapse"
                     data-target="#parcel_detail"
                     aria-expanded="false"
@@ -70,7 +67,7 @@
                     onclick="$('#building_detail, #business_detail').collapse('hide')">
                 Parcel
             </button>
-            <button class="btn btn-secondary btn-lg"
+            <button class="btn btn-outline-info btn-lg"
                     type="button" data-toggle="collapse"
                     data-target="#business_detail"
                     aria-expanded="false"
@@ -78,7 +75,7 @@
                     onclick="$('#parcel_detail, #building_detail').collapse('hide')">
                 Business
             </button>
-            <button class="btn btn-secondary btn-lg"
+            <button class="btn btn-outline-info btn-lg"
                     type="button" data-toggle="collapse"
                     data-target="#building_detail"
                     aria-expanded="false"
@@ -88,8 +85,8 @@
             </button>
         </div>
         <div class="collapse" id="parcel_detail">
-            <table class="table table-striped table-dark table-sm">
-                <thead class="thead-dark">
+            <table class="table table-striped table-light table-sm">
+                <thead class="thead-light">
                 <tr>
                     <th scope="col">Parcel Information</th>
                     <th scope="col"></th>
@@ -99,8 +96,8 @@
             </table>
         </div>
         <div class="collapse" id="business_detail">
-            <table class="table table-striped table-dark table-sm">
-                <thead class="thead-dark">
+            <table class="table table-striped table-light table-sm">
+                <thead class="thead-light">
                 <tr>
                     <th scope="col">Business</th>
                     <th scope="col"></th>
@@ -111,8 +108,8 @@
         </div>
         <div class="collapse" id="building_detail">
             <img class="image" src="" alt="building image" style="display: none;">
-            <table class="table table-striped table-dark table-sm">
-                <thead class="thead-dark">
+            <table class="table table-striped table-light table-sm">
+                <thead class="thead-light">
                 <tr>
                     <th scope="col">Building Information</th>
                     <th scope="col"></th>
@@ -131,14 +128,32 @@
                 width: 80px;
                 height: 50px;
                 z-index: 0.9;">
-            <button type="button" id="sidebarCollapse2" class="btn btn-secondary btn-lg">
-                <i class="fas fa-align-left"></i>
-                <span>MORE</span>
-            </button>
+        <button type="button" id="sidebarCollapse2" class="btn btn-outline-light">
+            <img src="img/collapse.png" style="
+                     height: 30px;
+                     -webkit-transform: rotate(90deg);
+                    -moz-transform: rotate(90deg);
+                    -o-transform: rotate(90deg);
+                    -ms-transform: rotate(90deg);
+                    transform: rotate(90deg);">
+        </button>
     </div>
     <div id="map"></div>
-    <div id="legendDiv"></div>
-
+    <div id="info">
+        <div id="legendDiv">
+            <div id="legend_gradient" style="width: 50px;
+                                             height: 20px;
+                                             background: linear-gradient(to right, #0036ff 0%, #b7008b 95%);
+                                                ">
+                <span style="margin-left: -8.5rem;"><span style="font-weight: bold">Building Occupied Rate</span>
+                <span style="color: white">
+                    <span>&nbsp; 0%</span>
+                    <span>100%</span>
+                </span>
+            </span>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript" src="js/sidebar.js"></script>
 </div>
 </div>

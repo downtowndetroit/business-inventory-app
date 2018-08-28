@@ -13,7 +13,7 @@ p {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
-    color: #999;
+    color: #eff9ff;
 }
 
 a,
@@ -74,8 +74,8 @@ a:focus {
     left: 0;
     height: 100vh;
     z-index: 99;
-    background: #5f656d;
-    color: #fff;
+    background: #d5e3f7;
+    color: #05026b;
     transition: all 0.3s;
 }
 
@@ -85,7 +85,7 @@ a:focus {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #5f656d;
+    /*background: #5f656d;*/
 }
 
 #sidebar ul.components {
@@ -207,7 +207,7 @@ a.article:hover {
         font-size: 0.8em;
         font-weight: 200;
         line-height: 1em;
-        color: #999;
+        color: #eff9ff;
     }
 }
 /* ARCGIS STYLE*/
@@ -221,9 +221,10 @@ a.article:hover {
 }
 
 #legendDiv{
-    background-color: #fff;
+    background-color: transparent;
     position: absolute !important;
-    z-index: -1;
+    z-index: 1;
     top:10px;
     right:20px;
+    font-size: 0.7rem;
 }

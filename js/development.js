@@ -37,8 +37,8 @@ require([
         // create map
         var map = new Map("map", {
             basemap: "gray",
-            center: [-83.052738, 42.335301],
-            zoom: 15
+            center: [-83.052738, 42.333301],
+            zoom: 16
         });
         // import layers
         var NewBuilding = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/developmentGDB/FeatureServer/0", {
@@ -67,23 +67,21 @@ require([
             var owner = attributes['Owner'];
             $("#detail_tablebody").append('<img class="image" alt="image" src="#" style="display: none;' +
                 'width: 100%; ">');
-            $("#detail_tablebody").append('<div style="margin: 1rem">');
-            $("#detail_tablebody").append('<h2>'+building_name+'</h2>');
+            $("#detail_tablebody").append('<div style="margin: 1rem">'+'<h2>'+building_name+'</h2></div>');
             if (description!=null){
-                $("#detail_tablebody").append('<p>'+description+'</p>');
+                $("#detail_tablebody").append('<div style="margin: 1rem">'+'<p>'+description+'</p></div>');
             }
             if (projectCost > 0){
-                $("#detail_tablebody").append('<p>'+'Project Cost:'+' $'+projectCost.toLocaleString()+'</p>');
+                $("#detail_tablebody").append('<div style="margin: 1rem">'+'<p>'+'Project Cost:'+' $'+projectCost.toLocaleString()+'</p></div>');
             } else {
-                $("#detail_tablebody").append('<p>'+'Project Cost:'+'Undisclosed'+'</p>');
+                $("#detail_tablebody").append('<div style="margin: 1rem">'+'<p>'+'Project Cost:'+'Undisclosed'+'</p></div>');
             }
             if (sqft!=null){
-                $("#detail_tablebody").append('<p>'+'Total Sq Ft: '+sqft.toLocaleString()+'</p>');
+                $("#detail_tablebody").append('<div style="margin: 1rem">'+'<p>'+'Total Sq Ft: '+sqft.toLocaleString()+'</p></div>');
             }
             if (owner!=null){
-                $("#detail_tablebody").append('<p>'+'Owner: '+owner+'</p>');
+                $("#detail_tablebody").append('<div style="margin: 1rem">'+'<p>'+'Owner: '+owner+'</p></div>');
             }
-            $("#detail_tablebody").append('</div>');
             // add img for development
             var building_id = attributes['OBJECTID'];
             $.getJSON('https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/developmentGDB/FeatureServer/0/' + building_id + '/attachments' +
@@ -352,7 +350,7 @@ require([
         var develoment_symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                 new Color('white'), 1),
-            new Color('#adb2b8'));
+            new Color('#3027b8'));
         var renderer = new SimpleRenderer(develoment_symbol);
         NewBuilding.setRenderer(renderer);
         // apply the selection symbol for the layer
@@ -362,5 +360,13 @@ require([
             new Color('red'));
         NewBuilding.setSelectionSymbol(selectionSymbol);
         NewBuilding.on("click", select_development);
+        // set Public space style
+        var public_space_symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                new Color('white'), 1),
+            new Color('#61b838'));
+        var public_space_renderer = new SimpleRenderer(public_space_symbol);
+        PublicSpaceInvestment.setRenderer(public_space_renderer);
+        $("#detail").collapse('show');
 
     });
