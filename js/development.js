@@ -26,8 +26,6 @@ require([
         ready,
         on
     ) {
-        /// testing token
-        token = 'ba3GxzBYsI8jbkBJufobRmQ_Fne6VthssHBYCKtrxjp50bopz-o1c6ojIggmAAOercSPMehX6YCHFrGOkyPWyi8kOO-gbnOJL3EbM5FQrvc1LG_GvCTXbdQO79X6IA7ro5tUW3fHE5WITul2IA8DT179bS4nWFbPweC36VC82WaSs7dBANfyVRIjjU-ZGzBcP0lgMQpivYELFzfywkRtoTwb9inxXwUcNjAvyVO_vKdeNZ_jNvVg6VljoKEZc8OW';
         ///
         var development_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/developmentGDB/FeatureServer/0");
         var public_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/developmentGDB/FeatureServer/1");
@@ -68,16 +66,21 @@ require([
             $("#detail_tablebody").append('<img class="image" alt="image" src="#" style="display: none;' +
                 'width: 100%; ">');
             $("#detail_tablebody").append('<div style="margin: 1rem">'+'<h2>'+building_name+'</h2></div>');
+            $("#detail_tablebody").append('<hr>');
             if (description!=null){
                 $("#detail_tablebody").append('<div style="margin: 1rem">'+'<p>'+description+'</p></div>');
+                $("#detail_tablebody").append('<hr>');
             }
             if (projectCost > 0){
                 $("#detail_tablebody").append('<div style="margin: 1rem">'+'<p>'+'Project Cost:'+' $'+projectCost.toLocaleString()+'</p></div>');
+                $("#detail_tablebody").append('<hr>');
             } else {
                 $("#detail_tablebody").append('<div style="margin: 1rem">'+'<p>'+'Project Cost:'+'Undisclosed'+'</p></div>');
+                $("#detail_tablebody").append('<hr>');
             }
             if (sqft!=null){
                 $("#detail_tablebody").append('<div style="margin: 1rem">'+'<p>'+'Total Sq Ft: '+sqft.toLocaleString()+'</p></div>');
+                $("#detail_tablebody").append('<hr>');
             }
             if (owner!=null){
                 $("#detail_tablebody").append('<div style="margin: 1rem">'+'<p>'+'Owner: '+owner+'</p></div>');
@@ -85,12 +88,11 @@ require([
             // add img for development
             var building_id = attributes['OBJECTID'];
             $.getJSON('https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/developmentGDB/FeatureServer/0/' + building_id + '/attachments' +
-                '?f=pjson&token=' + token, function (result) {
+                '?f=pjson', function (result) {
                 var img_id, img_url;
                 if (result['attachmentInfos'].length !== 0) {
                     img_id = result['attachmentInfos'][0]['id'];
-                    img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/developmentGDB/FeatureServer/0/" + building_id + "/attachments/" + img_id +
-                        "?token=" + token;
+                    img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/developmentGDB/FeatureServer/0/" + building_id + "/attachments/" + img_id;
                     display = 'block';
                 } else {
                     img_url = '';
@@ -209,11 +211,10 @@ require([
                         var attributes = feature['attributes'];
                         business_id = attributes['OBJECTID_1'];
                         $.getJSON('https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/0/' + business_id + '/attachments' +
-                            '?f=pjson&token=' + token, function (result) {
+                            '?f=pjson', function (result) {
                             if (result['attachmentInfos'].length !== 0) {
                                 img_id = result['attachmentInfos'][0]['id'];
-                                img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/0/" + business_id + "/attachments/" + img_id +
-                                    "?token=" + token;
+                                img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/0/" + business_id + "/attachments/" + img_id;
                                 display = 'block';
                             } else {
                                 img_url = '';
@@ -292,12 +293,11 @@ require([
                         var attributes = feature['attributes'];
                         building_id = attributes['OBJECTID_12'];
                         $.getJSON('https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/1/' + building_id + '/attachments' +
-                            '?f=pjson&token=' + token, function (result) {
+                            '?f=pjson', function (result) {
                             var img_id, img_url;
                             if (result['attachmentInfos'].length !== 0) {
                                 img_id = result['attachmentInfos'][0]['id'];
-                                img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1/" + building_id + "/attachments/" + img_id +
-                                    "?token=" + token;
+                                img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1/" + building_id + "/attachments/" + img_id;
                                 display = 'block';
                             } else {
                                 img_url = '';
@@ -347,11 +347,13 @@ require([
             }
         };
         // set selection symbol style
+        var developmentColor = '#3027b8';
         var develoment_symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                 new Color('white'), 1),
-            new Color('#3027b8'));
+            new Color(developmentColor));
         var renderer = new SimpleRenderer(develoment_symbol);
+        $("#development_legend").css("background", developmentColor);
         NewBuilding.setRenderer(renderer);
         // apply the selection symbol for the layer
         var selectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
@@ -361,10 +363,12 @@ require([
         NewBuilding.setSelectionSymbol(selectionSymbol);
         NewBuilding.on("click", select_development);
         // set Public space style
+        var publicSpaceColor = '#61b838';
         var public_space_symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                 new Color('white'), 1),
-            new Color('#61b838'));
+            new Color(publicSpaceColor));
+        $("#publicspace_legend").css("background", publicSpaceColor);
         var public_space_renderer = new SimpleRenderer(public_space_symbol);
         PublicSpaceInvestment.setRenderer(public_space_renderer);
         $("#detail").collapse('show');

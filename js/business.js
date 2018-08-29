@@ -30,7 +30,7 @@ require([
         ready,
         on
 ) {
-        token = 'ba3GxzBYsI8jbkBJufobRmQ_Fne6VthssHBYCKtrxjp50bopz-o1c6ojIggmAAOercSPMehX6YCHFrGOkyPWyi8kOO-gbnOJL3EbM5FQrvc1LG_GvCTXbdQO79X6IA7ro5tUW3fHE5WITul2IA8DT179bS4nWFbPweC36VC82WaSs7dBANfyVRIjjU-ZGzBcP0lgMQpivYELFzfywkRtoTwb9inxXwUcNjAvyVO_vKdeNZ_jNvVg6VljoKEZc8OW';
+        token = 'bLg0GPoU6ZFSoH6nF8IWOB1uQWYPvVW9gcIs8OqmPpJGrx0lwVHLvqcfv-kkIiXCfszO7ug9tyMJtQPbgYKfNYxFn1f4wa69zDCype0yZQ-vtcGr8oRV21ID1EdYifEb5MiylLPonCr3gBXHaDLQzs6AHXdB4bNmRx-TWaIpOZohB_j27DMvPACmPCjxQJsm1L1XbBpghP8JPS4JshGjJa1c0p-wxM1JI3aWBgxgO3wOpbHQYJlofiRxbh2-UGa2';
         var map = new Map("map", {
             basemap: "gray",
             center: [-83.057738, 42.332301],
@@ -144,11 +144,10 @@ require([
                         var attributes = feature['attributes'];
                         business_id = attributes['OBJECTID_1'];
                         $.getJSON('https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/0/' + business_id + '/attachments' +
-                            '?f=pjson&token=' + token, function (result) {
+                            '?f=pjson', function (result) {
                             if (result['attachmentInfos'].length !== 0) {
                                 img_id = result['attachmentInfos'][0]['id'];
-                                img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/0/" + business_id + "/attachments/" + img_id +
-                                    "?token=" + token;
+                                img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/0/" + business_id + "/attachments/" + img_id;
                                 display = 'block';
                             } else {
                                 img_url = '';
@@ -228,12 +227,11 @@ require([
                         var attributes = feature['attributes'];
                         building_id = attributes['OBJECTID_12'];
                         $.getJSON('https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/1/' + building_id + '/attachments' +
-                            '?f=pjson&token=' + token, function (result) {
+                            '?f=pjson', function (result) {
                             var img_id, img_url;
                             if (result['attachmentInfos'].length !== 0) {
                                 img_id = result['attachmentInfos'][0]['id'];
-                                img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1/" + building_id + "/attachments/" + img_id +
-                                    "?token=" + token;
+                                img_url = "https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1/" + building_id + "/attachments/" + img_id;
                                 display = 'block';
                             } else {
                                 img_url = '';
