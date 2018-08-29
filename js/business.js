@@ -338,9 +338,9 @@ require([
         var building_symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                 new Color('white'), 1),
-            new Color('#393e44'));
+            new Color('#b7008b'));
         var building_renderer = new ClassBreaksRenderer(building_symbol, "NonEmptySpace");
-        building_renderer.normalizationType = "TotalBusinessSpace";
+        building_renderer.normalizationField = "TotalBusinessSpace";
         building_renderer.addBreak(0, 0, new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                 new Color('white'), 1),
@@ -357,7 +357,7 @@ require([
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                 new Color('white'), 1),
             new Color('#8862b8')));
-        building_renderer.addBreak(0.9, 1, new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+        building_renderer.addBreak(0.9, 1.1, new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                 new Color('white'), 1),
             new Color('#b7008b')));

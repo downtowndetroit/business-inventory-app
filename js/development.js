@@ -5,6 +5,7 @@ require([
         "esri/symbols/SimpleFillSymbol",
         "esri/symbols/SimpleLineSymbol",
         "esri/renderers/SimpleRenderer",
+        "esri/symbols/LineSymbol",
         "esri/Color",
         "esri/tasks/query",
         "esri/tasks/QueryTask",
@@ -19,6 +20,7 @@ require([
         SimpleFillSymbol,
         SimpleLineSymbol,
         SimpleRenderer,
+        LineSymbol,
         Color,
         Query,
         QueryTask,
@@ -51,9 +53,16 @@ require([
             opacity: 0.8,
             visible: true
         });
+        var QLINE = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/QLineRoute/FeatureServer/0", {
+            mode: FeatureLayer.MODE_ONDEMAND,
+            outFields: [],
+            opacity: 0.8,
+            visible: true
+        });
         // add layers to the map
         map.addLayer(NewBuilding);
         map.addLayer(PublicSpaceInvestment);
+        map.addLayer(QLINE);
 
         // define load function
         load_development = function(attributes){
@@ -371,6 +380,14 @@ require([
         $("#publicspace_legend").css("background", publicSpaceColor);
         var public_space_renderer = new SimpleRenderer(public_space_symbol);
         PublicSpaceInvestment.setRenderer(public_space_renderer);
+
+        // set Public space style
+        var QLINEColor = '#b80099';
+        var QLINE_symbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_LONGDASH, new Color(QLINEColor), 3);
+        $("#QLINE_legend_legend").css("color", QLINEColor);
+        var QLINE_renderer = new SimpleRenderer(QLINE_symbol);
+        QLINE.setRenderer(QLINE_renderer);
+
         $("#detail").collapse('show');
 
     });
