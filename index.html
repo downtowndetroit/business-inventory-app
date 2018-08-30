@@ -1,3 +1,15 @@
+<!--
+Credit: Tian Xie (intern in Downtown Detroit Partnership)
+Contact Email: tian.xie@downtowndetroit.org or tianxie@umich.edu
+
+Licence Information:
+                    GNU GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,9 +37,11 @@
 <body>
 <div class="wrapper">
     <nav id="sidebar">
+        <!-- ---------------- -->
+        <!-- collapse setting-->
+        <!-- ---------------- -->
         <div class="colps"
              style="position: absolute;
-                    /* top right corner of the sidebar */
                     top: 2rem;
                     left: 86%;
                     width: 5rem;
@@ -44,6 +58,9 @@
                 </button>
         </div>
         <div class="sidebar-header">
+            <!-- -------- -->
+            <!-- DDP ICON-->
+            <!-- -------- -->
             <a href="http://downtowndetroit.org/" target="_blank">
             <img src="img/DDP_LOGO_H-transparent.png" alt="icon" class="icon" style="display: inline;
                                                                                     width: 130px;
@@ -53,6 +70,9 @@
             <h2 style="display: inline;
                         font-size: 1.8rem;">Business Inventory</h2>
         </div>
+        <!-- ---------------- -->
+        <!-- ADDRESS INPUT FORM-->
+        <!-- ---------------- -->
         <div class="form-group">
             <div class="col-8">
                 <input type="text" class="form-control text-dark bg-light inputAddress" placeholder="Address">
@@ -60,6 +80,9 @@
         </div>
         <!-- TODO: Add collapse components: https://getbootstrap.com/docs/4.0/components/collapse/ -->
         <div style="left: 3rem;">
+            <!-- ---------------- -->
+            <!-- collapse Button-->
+            <!-- ---------------- -->
             <button class="btn btn-outline-info btn-lg"
                     type="button" data-toggle="collapse"
                     data-target="#parcel_detail"
@@ -85,6 +108,9 @@
                 Building
             </button>
         </div>
+        <!-- ---------------- -->
+        <!-- table body -->
+        <!-- ---------------- -->
         <div class="popuptext" id="parcelpopup" style="display: none;"><span style="margin: 5px">Source: Detroit Open Data Portal, May 2018</span> </div>
         <div class="collapse" id="parcel_detail">
                 <div class="table_head">
@@ -121,9 +147,11 @@
         </div>
     </nav>
 <div id="content">
+    <!-- ---------------- -->
+    <!-- collapse setting-->
+    <!-- ---------------- -->
     <div class="colps_out"
          style="position: absolute;
-                /* top right corner of the sidebar */
                 top: 1rem;
                 left: 3.5rem;
                 width: 80px;
@@ -140,6 +168,9 @@
         </button>
     </div>
     <div id="map"></div>
+    <!-- -------------- -->
+    <!-- Legend Setting -->
+    <!-- -------------- -->
     <div id="info">
         <div id="legendDiv">
             <div id="legend_gradient" style="width: 50px;
@@ -160,7 +191,7 @@
 </div>
 </body>
 <script>
-    // When the user clicks on div, open the popup
+    // This script is for the metadata popup
     $("#parcel_meta").mouseover( function () {
         console.log("mouseover");
         $("#parcelpopup").css("display", "block");

@@ -1,7 +1,15 @@
-/*
-    DEMO STYLE
-*/
+/************************************************************************
+This stylesheet is for web application created by Tian Xie in DDP
+For more information, please check detail information  in html source page
 
+ Licence Information:
+  GNU GENERAL PUBLIC LICENSE
+ Version 3, 29 June 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+*************************************************************************/
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 body {
     font-family: 'Poppins', sans-serif;
@@ -23,10 +31,6 @@ a:focus {
     text-decoration: none;
     transition: all 0.3s;
 }
-/* ---------------------------------------------------
-    deprecate
------------------------------------------------------ */
-
 .colps {
     position: absolute;
     /* top right corner of the sidebar */
@@ -58,10 +62,6 @@ a:focus {
     border-bottom: 1px dashed #ddd;
     margin: 40px 0;
 }
-
-/* ---------------------------------------------------
-    SIDEBAR STYLE
------------------------------------------------------ */
 
 .wrapper {
     display: flex;
@@ -163,11 +163,6 @@ a.article:hover {
     display: block;
     height: 400px;
 }
-
-/* ---------------------------------------------------
-    CONTENT STYLE
------------------------------------------------------ */
-
 #content {
     width: calc(100%);
     padding: 0px;
@@ -181,10 +176,6 @@ a.article:hover {
 #content.active {
     width: 100%;
 }
-
-/* ---------------------------------------------------
-    MEDIAQUERIES
------------------------------------------------------ */
 
 @media (max-width: 768px) {
     #sidebar {
@@ -210,7 +201,6 @@ a.article:hover {
         color: #000000;
     }
 }
-/* ARCGIS STYLE*/
 #map {
     height: 100vh;
     width: 100%;
@@ -241,7 +231,6 @@ hr {
     height: 2rem;
     font-size: 1.2rem;
 }
-/* The actual popup */
 .popuptext {
     width: 10rem;
     background-color: rgba(75, 180, 234, 0.8);

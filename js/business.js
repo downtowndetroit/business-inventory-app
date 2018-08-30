@@ -1,4 +1,30 @@
-/* This is the script to create ArcGIS map*/
+
+/****************************************************************
+  This is the script for the business, building and parcel web application
+
+ Credit: Tian Xie (intern in Downtown Detroit Partnership)
+ Contact Email: tian.xie@downtowndetroit.org or tianxie@umich.edu
+
+ Script Summary:
+ This script pull out layers hosted by ArcGIS and visualize them using
+ ArcGIS Javascript API.
+
+ Layers Summary
+ This is a collection of layers created by Tian Xie(Intern in DDP)
+ in August, 2018. This collection includes Detroit Parcel Data(Parcel_collector),
+ InfoUSA business data(BIZ_INFOUSA), and building data(Building). The building
+ and business data have been edited by Tian during field research and have
+ attached images.
+
+ Licence Information:
+  GNU GENERAL PUBLIC LICENSE
+ Version 3, 29 June 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+ ***************************************************************/
+
 require([
         "esri/map",
         "esri/layers/FeatureLayer",
@@ -30,20 +56,22 @@ require([
         ready,
         on
 ) {
-        token = 'bLg0GPoU6ZFSoH6nF8IWOB1uQWYPvVW9gcIs8OqmPpJGrx0lwVHLvqcfv-kkIiXCfszO7ug9tyMJtQPbgYKfNYxFn1f4wa69zDCype0yZQ-vtcGr8oRV21ID1EdYifEb5MiylLPonCr3gBXHaDLQzs6AHXdB4bNmRx-TWaIpOZohB_j27DMvPACmPCjxQJsm1L1XbBpghP8JPS4JshGjJa1c0p-wxM1JI3aWBgxgO3wOpbHQYJlofiRxbh2-UGa2';
+        /*****************************************************
+        define map object and set center point and zoom level
+        ******************************************************/
         var map = new Map("map", {
             basemap: "gray",
             center: [-83.057738, 42.332301],
             zoom: 15
         });
 
-        /****************************************************************
-         * Add feature layer - A FeatureLayer at minimum should point
-         * to a URL to a feature service or point to a feature collection
-         * object.
-         ***************************************************************/
+        /****************************************************
+        define functions used for loading data from hosted layers
+         ****************************************************/
 
-
+        /****************************************************
+        define functions used for loading parcel data
+         ***************************************************/
         var parcel_fieldmapping = {
             /* address+ zipcode */
             address: 'Address',
@@ -96,6 +124,9 @@ require([
                 }
             }
         };
+        /****************************************************
+         define functions used for loading business data
+         ***************************************************/
         var business_fieldmapping = {
             COMPANY_NA: 'Company Name',
             LOCATION_A: 'Address',
@@ -192,6 +223,9 @@ require([
                 }
             });
         };
+        /****************************************************
+         define functions used for loading building data
+         ***************************************************/
         var building_fieldmapping = {
             /* address+ zipcode */
             AKA: 'Building Name',
@@ -255,6 +289,9 @@ require([
                 }
             });
         };
+        /****************************************************
+         define functions used for handel parcel selection event
+         ***************************************************/
         select_parcel = function (evt) {
             var idProperty = PARCEL.objectIdField;
             var feature, featureId, query;
@@ -279,6 +316,9 @@ require([
                 });
             }
         };
+        /****************************************************************
+         define functions used for parcel selection through typing address
+         *****************************************************************/
         select_parcel_by_address = function (address) {
             var query;
             query = new Query();
@@ -296,9 +336,16 @@ require([
             });
 
         };
+        /****************************************************
+         define querytask for extract data from other layers by SQL statement
+         ***************************************************/
         var infousa_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/0");
         var building_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1");
         var parcel_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/2");
+        /****************************************************
+         import layers from ArcGIS server
+         ***************************************************/
+
         var PARCEL = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/2", {
             mode: FeatureLayer.MODE_ONDEMAND,
             outFields: ['*'],
@@ -312,7 +359,9 @@ require([
             opacity: 0.8,
             visible: true
         });
-
+        /****************************************************
+         get all available address for address autocomplete feature
+         ***************************************************/
         var address_id_list = [];
         var address_list = [];
         address_query = new Query();
@@ -362,17 +411,6 @@ require([
                 new Color('white'), 1),
             new Color('#b7008b')));
         BUILIDNG.setRenderer(building_renderer);
-        /*
-        map.on("load", function(evt){
-            var legend = new Legend({
-                map: map,
-                layerInfos: [{
-                    layer: BUILIDNG,
-                    title: "Occupancy Rate"
-                }]
-            }, "legendDiv");
-            legend.startup();
-        });*/
 
         // set the selection symbol for the parcel
         var selectionSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
@@ -388,9 +426,12 @@ require([
         $(".inputAddress").change(select_parcel_by_address);
         // default show parcel info
         $("#building_detail").collapse('show');
-        // add parcel and building vector to the map
+        /* -------------------
+        after importing layers, add those to the map
+        ------------------- */
         map.addLayer(BUILIDNG);
         map.addLayer(PARCEL);
+
         // auto complete setting
         $(".inputAddress").autocomplete({
             source: address_list,
