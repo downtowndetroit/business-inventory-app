@@ -313,6 +313,9 @@ require([
                     load_parcel(attribute);
                     load_business(parcelid);
                     load_building(parcelnum);
+                    if ($("#sidebar").hasClass("active")){
+                        $('#sidebar').toggleClass('active');
+                    }
                 });
             }
         };
@@ -341,12 +344,12 @@ require([
          ***************************************************/
         var infousa_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/0");
         var building_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1");
-        var parcel_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/2");
+        var parcel_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/PARCEL_BIZ_UPDATE/FeatureServer/0");
         /****************************************************
          import layers from ArcGIS server
          ***************************************************/
 
-        var PARCEL = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/2", {
+        var PARCEL = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/PARCEL_BIZ_UPDATE/FeatureServer/0", {
             mode: FeatureLayer.MODE_ONDEMAND,
             outFields: ['*'],
             opacity: 0.5,
