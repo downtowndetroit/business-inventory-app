@@ -461,6 +461,9 @@ require([
                     load_parcel(parcelnum);
                     load_business(parcelnum);
                     load_building(parcelnum);
+                    if ($("#sidebar").hasClass("active")){
+                        $('#sidebar').toggleClass('active');
+                    }
                 });
             }
         };
@@ -509,6 +512,9 @@ require([
                     load_parcel(parcelnum);
                     load_business(parcelnum);
                     load_building(parcelnum);
+                    if ($("#sidebar").hasClass("active")){
+                        $('#sidebar').toggleClass('active');
+                    }
                 });
             }
         };
