@@ -233,35 +233,42 @@ require([
             parcel_query.outFields = ["*"];
             parcel_query.where = "parcelnum=" + "'"+parcelnum+"'";
             parcel_querytask.execute(parcel_query, function (results) {
-                var attributes = results['features'][0]['attributes'];
-                /*************************************************************************************
-                loop through every needed attributes in the mapping and show them in the table
-                 *************************************************************************************/
-                for (attribute in parcel_fieldmapping) {
-                    if (attribute == 'address') {
-                        var field_name = parcel_fieldmapping[attribute];
-                        var value = attributes[attribute] + ', ' + attributes['zip_code'];
-                        $("#parcel_tablebody").append(
-                            '<tr>' +
-                            '<td class="text-left">' + field_name + '</td>' +
-                            '<td class="text-right">' + value + '</td>' +
-                            '</tr>');
-                    } else if (attribute == 'owner_stre') {
-                        var field_name = parcel_fieldmapping[attribute];
-                        var value = attributes['owner_stre'] + attributes['owner_city'] + attributes['owner_stat'] + attributes['owner_zip'];
-                        $("#parcel_tablebody").append(
-                            '<tr>' +
-                            '<td class="text-left">' + field_name + '</td>' +
-                            '<td class="text-right">' + value + '</td>' +
-                            '</tr>');
-                    } else {
-                        var field_name = parcel_fieldmapping[attribute];
-                        var value = attributes[attribute];
-                        $("#parcel_tablebody").append(
-                            '<tr>' +
-                            '<td class="text-left">' + field_name + '</td>' +
-                            '<td class="text-right">' + value + '</td>' +
-                            '</tr>')
+                if (results['features'].length === 0) {
+                    $("#parcel_tablebody").append('<tr class="table-dark">' +
+                        '<td class="text-left text-danger">Parcel Not Found</td>' +
+                        '<td class="text-right text-danger"></td>' +
+                        '</tr>')
+                } else {
+                    var attributes = results['features'][0]['attributes'];
+                    /*************************************************************************************
+                     loop through every needed attributes in the mapping and show them in the table
+                     *************************************************************************************/
+                    for (attribute in parcel_fieldmapping) {
+                        if (attribute == 'address') {
+                            var field_name = parcel_fieldmapping[attribute];
+                            var value = attributes[attribute] + ', ' + attributes['zip_code'];
+                            $("#parcel_tablebody").append(
+                                '<tr>' +
+                                '<td class="text-left">' + field_name + '</td>' +
+                                '<td class="text-right">' + value + '</td>' +
+                                '</tr>');
+                        } else if (attribute == 'owner_stre') {
+                            var field_name = parcel_fieldmapping[attribute];
+                            var value = attributes['owner_stre'] + attributes['owner_city'] + attributes['owner_stat'] + attributes['owner_zip'];
+                            $("#parcel_tablebody").append(
+                                '<tr>' +
+                                '<td class="text-left">' + field_name + '</td>' +
+                                '<td class="text-right">' + value + '</td>' +
+                                '</tr>');
+                        } else {
+                            var field_name = parcel_fieldmapping[attribute];
+                            var value = attributes[attribute];
+                            $("#parcel_tablebody").append(
+                                '<tr>' +
+                                '<td class="text-left">' + field_name + '</td>' +
+                                '<td class="text-right">' + value + '</td>' +
+                                '</tr>')
+                        }
                     }
                 }
             });
@@ -459,8 +466,10 @@ require([
                     $("#business_tablebody").empty();
                     load_development(attributes);
                     load_parcel(parcelnum);
+                    /*
                     load_business(parcelnum);
                     load_building(parcelnum);
+                    */
                     if ($("#sidebar").hasClass("active")){
                         $('#sidebar').toggleClass('active');
                     }
@@ -510,8 +519,10 @@ require([
                     $("#business_tablebody").empty();
                     load_publicspace(attributes);
                     load_parcel(parcelnum);
+                    /*
                     load_business(parcelnum);
                     load_building(parcelnum);
+                    */
                     if ($("#sidebar").hasClass("active")){
                         $('#sidebar').toggleClass('active');
                     }
