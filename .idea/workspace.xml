@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1dc6da99-4196-48a1-a847-f3ea9e67b6c9" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="1dc6da99-4196-48a1-a847-f3ea9e67b6c9" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -187,8 +185,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="157" />
-    <option name="y" value="29" />
+    <option name="x" value="-1415" />
+    <option name="y" value="89" />
     <option name="width" value="1224" />
     <option name="height" value="813" />
   </component>
@@ -259,15 +257,16 @@
       <workItem from="1532464016388" duration="93049000" />
       <workItem from="1534565402573" duration="22441000" />
       <workItem from="1536264008266" duration="5247000" />
-      <workItem from="1536697409105" duration="9165000" />
+      <workItem from="1536697409105" duration="9405000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="186338000" />
+    <option name="totallyTimeSpent" value="186578000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="157" y="29" width="1224" height="813" extended-state="0" />
+    <frame x="-1415" y="89" width="1224" height="813" extended-state="1" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21568628" />
       <window_info anchor="bottom" id="TODO" order="6" />
