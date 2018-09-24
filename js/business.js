@@ -344,12 +344,12 @@ require([
          ***************************************************/
         var infousa_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/0");
         var building_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/arcgis/rest/services/collector/FeatureServer/1");
-        var parcel_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/PARCEL_BIZ_UPDATE/FeatureServer/0");
+        var parcel_querytask = new QueryTask("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/2");
         /****************************************************
          import layers from ArcGIS server
          ***************************************************/
 
-        var PARCEL = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/PARCEL_BIZ_UPDATE/FeatureServer/0", {
+        var PARCEL = new FeatureLayer("https://services6.arcgis.com/kpe5MwFGvZu9ezGW/ArcGIS/rest/services/collector/FeatureServer/2", {
             mode: FeatureLayer.MODE_ONDEMAND,
             outFields: ['*'],
             opacity: 0.5,
@@ -434,7 +434,7 @@ require([
         ------------------- */
         map.addLayer(BUILIDNG);
         map.addLayer(PARCEL);
-
+        console.log(address_list);
         // auto complete setting
         $(".inputAddress").autocomplete({
             source: address_list,
